@@ -21,3 +21,8 @@ Run the mongo server: mongo
 
 ## Overall Debugging
 * [(node:62285) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.](https://stackoverflow.com/questions/51583465/to-use-the-new-parser-pass-option-usenewurlparser-true-to-mongoclient-conn)
+
+## Other Resources
+* [Basic Routing, HTTP Requests, and CRUD Operations with Express and MongoDB](https://www.javascriptjanuary.com/blog/basic-routing-http-requests-and-crud-operations-with-express-and-mongodb)
+    * uses mLabel
+* [ES6 arrow functions](https://medium.freecodecamp.org/when-and-why-you-should-use-es6-arrow-functions-and-when-you-shouldnt-3d851d7f0b26)
