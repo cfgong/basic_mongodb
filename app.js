@@ -32,15 +32,15 @@ passport.use(new BasicStrategy(
 ))
 
 // find the user Ethan
-var user = User.findOne({username: "Ethan"}, function(err, user){
-    user.password = 'test';
-    user.save(function(err){
-        if (err) {
-            return console.log('user not saved: '+ (err))
-        }
-        console.log("user saved!")
-    })
-})
+// var user = User.findOne({username: "Ethan"}, function(err, user){
+//     user.password = 'test';
+//     user.save(function(err){
+//         if (err) {
+//             return console.log('user not saved: '+ (err))
+//         }
+//         console.log("user saved!")
+//     })
+// })
 
 app.get('/api/auth', passport.authenticate('basic', { session: false }), function(req, res){
     res.send(req.user.username + ' has been authenticated.');
@@ -53,16 +53,12 @@ app.use(function(req, res, next){
 })
 
 app.get('/', function(req,res){
-    res.json({message: 'You did it! Great job!'});
+    res.json({message: 'You did it!'});
 })
 
 app.get('/api', function(req, res){
     console.log("get /api");
     res.json({message: "API Base ENDPOINT"});
-})
-
-app.get('/api/auth', passport.authenticate('basic', { session: false }), function(req, res){
-    res.send(req.user.name + ' has been authenticated.');
 })
 
 app.listen(3000);
@@ -79,7 +75,8 @@ function(req, res){
 // POST . /api/activities : create a new application to track
 // activity_name
 // quantity
-app.post('/api/activities', function(req, res){
+app.post('/api/activities', passport.authenticate('basic', { session: false }),
+function(req, res){
     Activity.create({
         activity_name: req.body.activity_name,
         quantity: req.body.quantity
@@ -93,7 +90,8 @@ app.post('/api/activities', function(req, res){
 
 // GET . /api/activities/{id} : show information about one activity
 // get by activity_id
-app.get('/api/activities/:activity_id', function(req, res){
+app.get('/api/activities/:activity_id', passport.authenticate('basic', { session: false }),
+function(req, res){
     Activity.findById(req.params.activity_id).then(function(err, activity){
         if (err){
             console.log('Could not retrieve specific activity');
@@ -106,7 +104,8 @@ app.get('/api/activities/:activity_id', function(req, res){
 // PUT . /api/activities/{id} : update by id
 // activity_name
 // quantity
-app.put('/api/activities/:activity_id', function(req, res){
+app.put('/api/activities/:activity_id', passport.authenticate('basic', { session: false }),
+function(req, res){
     Activity.findOneAndUpdate({
         activity_name: req.body.activity_name,
         quantity: req.body.quantity
@@ -116,7 +115,8 @@ app.put('/api/activities/:activity_id', function(req, res){
     console.log('updated activity');
 })
 // DELETE . /api/activities/{id} : delete by id
-app.delete('/api/activities/:activity_id', function(req, res){
+app.delete('/api/activities/:activity_id', passport.authenticate('basic', { session: false }),
+function(req, res){
     Activity.findOneAndRemove({
         activity_name: req.body.activity_name,
         quantity: req.body.quantity
@@ -131,7 +131,8 @@ app.delete('/api/activities/:activity_id', function(req, res){
 
 // GET . /api/activities/date/:date : get items by date
 // date
-app.get('/api/activities/date/:date', function(req, res){
+app.get('/api/activities/date/:date', passport.authenticate('basic', { session: false }),
+function(req, res){
     Activity.find(req.params.date).then(function(err, activity){
         if (err){
             res.send(err)
@@ -143,7 +144,8 @@ app.get('/api/activities/date/:date', function(req, res){
 
 // PUT . /api/activities/addtodate/{activity_id}/{date} : update items by id and date
 // quantity
-app.put('/api/activities/addtodate/:activity_id/:date', function(req, res){
+app.put('/api/activities/addtodate/:activity_id/:date', passport.authenticate('basic', { session: false }),
+function(req, res){
     Activity.findOneAndUpdate({
         quantity: req.body.quantity,
     }).then(activity => {
@@ -153,7 +155,8 @@ app.put('/api/activities/addtodate/:activity_id/:date', function(req, res){
 })
 
 // DELETE . /api/activities/addtodate/{activity_id}/{date} : delete items by id and date
-app.delete('/api/activities/addtodate/:activity_id/:date', function(req, res){
+app.delete('/api/activities/addtodate/:activity_id/:date', passport.authenticate('basic', { session: false }),
+function(req, res){
     Activity.findOneAndRemove({
         activity_name: req.body.activity_name,
         quantity: req.body.quantity,
