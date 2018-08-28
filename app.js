@@ -90,3 +90,38 @@ app.delete('/api/activities/:activity_id', function(req, res){
 // POST . /api/activities/{id}/stats : post stats to a specific date
 
 // DELETE . /api/stats/{id} :
+
+// GET . /api/activities/date/:date : get items by date
+// date
+app.get('/api/activities/date/:date', function(req, res){
+    Activity.find(req.params.date).then(function(err, activity){
+        if (err){
+            res.send(err)
+        }
+        res.json(activity)
+    })
+    console.log("Retrieved activity by date")
+})
+
+// PUT . /api/activities/addtodate/{activity_id}/{date} : update items by id and date
+// quantity
+app.put('/api/activities/addtodate/:activity_id/:date', function(req, res){
+    Activity.findOneAndUpdate({
+        quantity: req.body.quantity,
+    }).then(activity => {
+        res.json(activity)
+    })
+    console.log("updated activity by date")
+})
+
+// DELETE . /api/activities/addtodate/{activity_id}/{date} : delete items by id and date
+app.delete('/api/activities/addtodate/:activity_id/:date', function(req, res){
+    Activity.findOneAndRemove({
+        activity_name: req.body.activity_name,
+        quantity: req.body.quantity,
+    }).then(activity => {
+        res.json(activity)
+    })
+    console.log("removed activty")
+})
+
