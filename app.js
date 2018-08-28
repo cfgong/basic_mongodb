@@ -6,7 +6,7 @@ const Activity = require('./models/activity');
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const User = require('./models/user.js')
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
 
 var router = express.Router();
 
@@ -36,13 +36,13 @@ var user = User.findOne({username: "Ethan"}, function(err, user){
     user.password = 'test';
     user.save(function(err){
         if (err) {
-            return console.log('user not saved')
+            return console.log('user not saved: '+ (err))
         }
         console.log("user saved!")
     })
 })
 
-app.get('/app/auth', passport.authenticate('basic', { session: false }), function(req, res){
+app.get('/api/auth', passport.authenticate('basic', { session: false }), function(req, res){
     res.send(req.user.username + ' has been authenticated.');
 })
 // Authentication end
@@ -59,6 +59,10 @@ app.get('/', function(req,res){
 app.get('/api', function(req, res){
     console.log("get /api");
     res.json({message: "API Base ENDPOINT"});
+})
+
+app.get('/api/auth', passport.authenticate('basic', { session: false }), function(req, res){
+    res.send(req.user.name + ' has been authenticated.');
 })
 
 app.listen(3000);

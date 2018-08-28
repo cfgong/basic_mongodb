@@ -9,7 +9,7 @@ const userSchema = new Schema({
 })
 
 userSchema.pre('save', function(next){
-    var hash = bcrypt.hashSync(this.passowrd, 8);
+    var hash = bcrypt.hashSync(this.password, 8);
     this.password = hash; 
     next();
 })

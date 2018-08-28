@@ -6,8 +6,8 @@ All the code in this repository comes from the following tutorial:
 Install dependencies: npm install
 
 Start application: node app   
-localhost:3000/api
-Stop: CTRL-C
+localhost:3000/api  
+Stop application: CTRL-C
 
 ## Installation
 #### Setup: Installing MongoDB (macOS)
@@ -32,9 +32,7 @@ show collections
 
 db.createCollection("users")  
 db.users.insert({username: "Ethan", password: "test"})  
-db.users.find().pretty()
-db.users.find().pretty()
-
+db.users.find().pretty()  
 
 ## Overall Debugging
 * [(node:62285) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.](https://stackoverflow.com/questions/51583465/to-use-the-new-parser-pass-option-usenewurlparser-true-to-mongoclient-conn)
