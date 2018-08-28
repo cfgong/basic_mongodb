@@ -4,10 +4,9 @@ let Schema = mongoose.Schema;
 
 const activitySchema = new Schema({
     activity_name: String,
-    quantity: Number
-},{
-    timestamps: true
-});
+    quantity: Number,
+    date: { type: Date, default: Date.now}
+})
 
 const Activity = mongoose.model('Activity', activitySchema);
 
