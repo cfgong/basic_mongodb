@@ -1,8 +1,12 @@
 const express = require('express');
-const app = express();
+const app = express()
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Activity = require('./models/activity');
+const passport = require('passport');
+const BasicStrategy = require('passport-http').BasicStrategy;
+const User = require('./models/user.js')
+const bcrypt = require('bcrypt-nodejs');
 
 var router = express.Router();
 
@@ -13,6 +17,35 @@ app.use(bodyParser.json());
 mongoose.Promise = require('bluebird');
 // connect stats database to mongoose
 mongoose.connect('mongodb://localhost:27017/stats', { useNewUrlParser: true });
+
+// Authentication
+passport.use(new BasicStrategy(
+    function(username, password, done){
+        User.findOne({ username: username }, function(err, user){
+            console.log("Here is the user: ", user)
+            if (user && bcrypt.compareSync(password, user.password)){
+                return done(null, user);
+            }
+            return done(null, false);
+        })
+    }
+))
+
+// find the user Ethan
+var user = User.findOne({username: "Ethan"}, function(err, user){
+    user.password = 'test';
+    user.save(function(err){
+        if (err) {
+            return console.log('user not saved')
+        }
+        console.log("user saved!")
+    })
+})
+
+app.get('/app/auth', passport.authenticate('basic', { session: false }), function(req, res){
+    res.send(req.user.username + ' has been authenticated.');
+})
+// Authentication end
 
 app.use(function(req, res, next){
     console.log('we use the router, and next moves to the next request');
@@ -32,7 +65,8 @@ app.listen(3000);
 console.log('Starting application!');
 
 // GET ./api/activities : show list of all activities & links
-app.get('/api/activities', function(req, res){
+app.get('/api/activities', passport.authenticate('basic', { session: false }),
+function(req, res){
     console.log('getting activities');
     Activity.find({}).then(eachOne =>{
         res.json(eachOne);
