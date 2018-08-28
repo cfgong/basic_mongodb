@@ -1,0 +1,19 @@
+{
+    "name": "statistics-tracker-api",
+    "version": "1.0.0",
+    "description": "This is an application to track personal statistics for a user",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Crystal Gong",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "*",
+        "body-parser": "*",
+        "express": "*",
+        "mongoose": "*",
+        "passport": "*",
+        "passport-http": "*"
+    }
+}
